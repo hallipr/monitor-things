@@ -14,8 +14,19 @@ public class OAuthController : ControllerBase
     }
 
     [HttpGet(Name = "GetAuthCallback")]
-    public string Get()
+    public IActionResult Get()
     {
-        return "ok";
+        if(Request.Query.ContainsKey("error"))
+        {
+            var errorDescription = Request.Query["error_description"].FirstOrDefault();
+            var error = Request.Query["error"].FirstOrDefault();
+
+            _logger.LogError("Error: {Error}, Description {ErrorDescription}", error, errorDescription);
+            return this.BadRequest($"{error}: {errorDescription}");
+        }
+
+        var code = Request.Query["code"].FirstOrDefault();
+        _logger.LogInformation("Code: {Code}", code);
+        return Ok();
     }
 }
