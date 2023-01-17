@@ -13,8 +13,8 @@ public class OAuthController : ControllerBase
         _logger = logger;
     }
 
-    [HttpGet(Name = "PostAuthCallback")]
-    public string Post()
+    [HttpGet(Name = "GetAuthCallback")]
+    public string Get()
     {
         return "ok";
     }
